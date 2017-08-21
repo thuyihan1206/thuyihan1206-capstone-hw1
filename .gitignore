@@ -13,7 +13,18 @@
 /tmp
 *.swp
 
+/db/images
+
 /client/build
 /bower_components
 /node_modules
 /coverage
+
+# Ignore .idea folder (RubyMine project specific settings)
+.idea
+
+# Ignore .ssh
+/.ssh
+
+# Ignore .DS_Store
+.DS_Store

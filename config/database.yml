@@ -2,17 +2,18 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
-  host: <%= ENV['POSTGRES_HOST'] %>
+#  username: <%= ENV['POSTGRES_USER'] %>
+#  password: <%= ENV['POSTGRES_PASSWORD'] %>
+#  host: <%= ENV['POSTGRES_HOST'] %>
 
 development:
   <<: *default
-  database: capstone_demoapp_development
+  host: localhost
+  database: security_assignment_development
 
 test:
   <<: *default
-  database: capstone_demoapp_test
+  database: security_assignment_test
 
 production:
   adapter: postgresql
