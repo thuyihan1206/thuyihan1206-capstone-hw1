@@ -39,6 +39,18 @@ class ThingPolicy < ApplicationPolicy
     organizer_or_admin?
   end
 
+  def get_types?
+    @user
+  end
+
+  def add_type?
+    organizer?
+  end
+
+  def remove_type?
+    organizer_or_admin?
+  end
+
   class Scope < Scope
     def user_roles members_only=true, allow_admin=true
       include_admin=allow_admin && @user && @user.is_admin?
