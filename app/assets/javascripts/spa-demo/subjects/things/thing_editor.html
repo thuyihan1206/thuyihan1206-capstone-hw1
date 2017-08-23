@@ -73,7 +73,7 @@
   </div>
 
   <div class="thing-types row col-lg-12"
-     ng-show="$ctrl.item.id">
+     ng-show="$ctrl.item.id && $ctrl.authz.canGetTypes">
     <label class="col-xs-3">Related Types:</label>
     <ul class="thing-types col-xs-9">
         <li ng-repeat="ti in $ctrl.types | orderBy:'label'">

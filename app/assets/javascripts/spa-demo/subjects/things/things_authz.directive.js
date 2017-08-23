@@ -55,6 +55,7 @@
         vm.authz.canGetDetails  = false;
         vm.authz.canUpdateImage = false;
         vm.authz.canRemoveImage = false;
+        vm.authz.canGetTypes    = false;
         vm.authz.canAddType     = false;
         vm.authz.canRemoveType  = false;
         item.$promise.then(function(){ checkAccess(item); });
@@ -69,8 +70,9 @@
       vm.authz.canGetDetails = ThingsAuthz.canGetDetails(item);
       vm.authz.canUpdateImage = ThingsAuthz.canUpdateImage(item);
       vm.authz.canRemoveImage = ThingsAuthz.canRemoveImage(item);
+      vm.authz.canGetTypes    = ThingsAuthz.canGetTypes();
       vm.authz.canAddType     = ThingsAuthz.canAddType(item);
-      vm.authz.canRemoveType = ThingsAuthz.canRemoveType(item);
+      vm.authz.canRemoveType  = ThingsAuthz.canRemoveType(item);
       console.log("checkAccess", item, vm.authz);
     }
 

@@ -35,11 +35,12 @@
   ThingEditorController.$inject = ["$scope","$q",
                                    "$state","$stateParams",
                                    "spa-demo.authz.Authz",
+                                   "spa-demo.subjects.ThingsAuthz",
                                    "spa-demo.subjects.Thing",
                                    "spa-demo.subjects.ThingImage",
                                    "spa-demo.subjects.ThingType"];
   function ThingEditorController($scope, $q, $state, $stateParams, 
-                                 Authz, Thing, ThingImage, ThingType) {
+                                 Authz, ThingsAuthz, Thing, ThingImage, ThingType) {
     var vm=this;
     vm.create = create;
     vm.clear  = clear;
@@ -74,7 +75,9 @@
       var itemId = thingId ? thingId : vm.item.id;      
       console.log("re/loading thing", itemId);
       vm.images = ThingImage.query({thing_id:itemId});
-      vm.types = ThingType.query({thing_id:itemId});
+      if (ThingsAuthz.canGetTypes()) {
+          vm.types = ThingType.query({thing_id: itemId});
+      }
       vm.item = Thing.get({id:itemId});
       vm.thingsAuthz.newItem(vm.item);
       vm.images.$promise.then(
@@ -83,7 +86,11 @@
             ti.originalPriority = ti.priority;            
           });                     
         });
-      $q.all([vm.item.$promise,vm.images.$promise,vm.types.$promise]).catch(handleError);
+      if (vm.types) {
+          $q.all([vm.item.$promise, vm.images.$promise, vm.types.$promise]).catch(handleError);
+      } else {
+          $q.all([vm.item.$promise, vm.images.$promise]).catch(handleError);
+      }
     }
     function haveDirtyLinks() {
       for (var i=0; vm.images && i<vm.images.length; i++) {
