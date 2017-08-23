@@ -44,7 +44,7 @@ class ThingPolicy < ApplicationPolicy
   end
 
   def add_type?
-    organizer?
+    member_or_organizer?
   end
 
   def remove_type?
