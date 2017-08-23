@@ -1,4 +1,5 @@
 <div class="type-list" ng-show="$ctrl.authz.canQuery">
+  * means items that you can edit
   <ul>
     <li ng-repeat="item in $ctrl.items | orderBy:'label'">
       <a ui-sref="types({id:item.id})">

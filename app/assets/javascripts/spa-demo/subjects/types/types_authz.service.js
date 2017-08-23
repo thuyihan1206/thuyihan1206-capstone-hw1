@@ -17,11 +17,11 @@
     TypesAuthz.constructor = TypesAuthz;
 
       //override and add additional methods
-    TypesAuthz.prototype.canCreate=function() {
+    TypesAuthz.prototype.canGetThings=function() {
       //console.log("ItemsAuthz.canCreate");
       return Authz.isAuthenticated();
     };
-    TypesAuthz.prototype.canQuery=function() {
+    TypesAuthz.prototype.canCreate=function() {
       //console.log("ItemsAuthz.canCreate");
       return Authz.isAuthenticated();
     };

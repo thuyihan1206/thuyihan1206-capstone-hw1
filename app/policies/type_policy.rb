@@ -5,7 +5,7 @@ class TypePolicy < ApplicationPolicy
   end
 
   def show?
-    @user
+    true
   end
 
   def create?

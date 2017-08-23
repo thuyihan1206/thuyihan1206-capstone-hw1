@@ -1,7 +1,7 @@
 class TypesController < ApplicationController
   before_action :set_type, only: [:show, :update, :destroy]
   wrap_parameters :type, include: ["label"]
-  before_action :authenticate_user!, only: [:show, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
   after_action :verify_authorized
   after_action :verify_policy_scoped, only: [:index]
 

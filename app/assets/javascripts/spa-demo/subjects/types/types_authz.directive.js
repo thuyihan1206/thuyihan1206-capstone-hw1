@@ -53,6 +53,7 @@
         vm.authz.canUpdate     = false;
         vm.authz.canDelete     = false;
         vm.authz.canGetDetails = false;
+        vm.authz.canGetThings = false;
         item.$promise.then(function(){ checkAccess(item); });
       } else {
         checkAccess(item)
@@ -63,6 +64,7 @@
       vm.authz.canUpdate     = TypesAuthz.canUpdate(item);
       vm.authz.canDelete     = TypesAuthz.canDelete(item);
       vm.authz.canGetDetails = TypesAuthz.canGetDetails(item);
+      vm.authz.canGetThings = TypesAuthz.canGetThings();
       console.log("checkAccess", item, vm.authz);
     }    
 
