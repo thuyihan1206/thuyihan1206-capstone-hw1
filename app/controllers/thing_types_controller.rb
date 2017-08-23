@@ -20,6 +20,17 @@ class ThingTypesController < ApplicationController
     render :index 
   end
 
+  def linkable_things
+    authorize Thing, :get_linkables?
+    type = Type.find(params[:type_id])
+    #@things=policy_scope(Thing.not_linked(type))
+    #need to exclude admins from seeing things they cannot link
+    @things=Thing.type_not_linked(type)
+    @things=ThingPolicy::Scope.new(current_user,@things).user_roles(true,false)
+    @things=ThingPolicy.merge(@things)
+    render "things/index"
+  end
+  
   def create
     thing_type = ThingType.new(thing_type_create_params.merge({
                                   :type_id=>params[:type_id],

@@ -40,7 +40,8 @@
     <span class="invalid">{{$ctrl.item.errors.notes}}</span>
   </div>
 
-  <div class="thing-images row col-lg-12">
+  <div class="thing-images row col-lg-12"
+       ng-show="$ctrl.item.id">
     <label class="col-xs-3">Related Images:</label>
     <ul class="thing-images col-xs-9">
       <li ng-repeat="ti in $ctrl.images | orderBy:'priority'">
@@ -60,8 +61,6 @@
         <div class="glyphicon glyphicon-asterisk"
              ng-hide="ti.originalPriority==ti.priority || ti.toRemove"></div>
         <a data-ui-sref="images({id:ti.image_id})">
-          <img style="width: 50px"            
-             ng-src="{{ti.image_content_url}}?width=50"/>
           <span class="id image_id">{{ti.image_id}}</span>
           <label class="image-caption"
                  ng-show="ti.image_caption">{{ti.image_caption}}</label>
@@ -73,6 +72,30 @@
     <span class="invalid">{{$ctrl.item.errors.images}}</span>
   </div>
 
+  <div class="thing-types row col-lg-12"
+     ng-show="$ctrl.item.id">
+    <label class="col-xs-3">Related Types:</label>
+    <ul class="thing-types col-xs-9">
+        <li ng-repeat="ti in $ctrl.types | orderBy:'label'">
+            <input type="checkbox"
+                   name="type-delete"
+                   ng-model="ti.toRemove"
+                   ng-show="$ctrl.authz.canRemoveType"
+                   value="{{ti.id}}">
+            <div class="type-delete glyphicon glyphicon-remove"
+                 ng-show="ti.toRemove"></div>
+            <a data-ui-sref="types({id:ti.type_id})">
+                <span class="id type_id">{{ti.type_id}}</span>
+                <label class="type-label"
+                       ng-show="ti.type_label">{{ti.type_label}}</label>
+                <label class="type-label"
+                       ng-hide="ti.type_label">(no label {{ti.type_id}})</label>
+            </a>
+        </li>
+    </ul>
+    <span class="invalid">{{$ctrl.item.errors.types}}</span>
+  </div>
+    
   <div class="thing-controls"
        ng-show="$ctrl.authz.authenticated">
     <button ng-show="!$ctrl.item.id && $ctrl.authz.canCreate"
@@ -85,11 +108,13 @@
       <span class="thing-modify"
             data-ng-hide="!$ctrl.authz.canUpdate &&
                           !$ctrl.authz.canUpdateImage &&
-                          !$ctrl.authz.canRemoveImage">
+                          !$ctrl.authz.canRemoveImage &&
+                          !$ctrl.auth.canRemoveType">
         <button name="thing-update"
                 type="submit"          
                 ng-disabled="thingform.$invalid || !thingform.$dirty"
-                data-ng-hide="$ctrl.haveDirtyLinks() &&
+                data-ng-hide="($ctrl.haveDirtyLinks() ||
+                  $ctrl.haveDirtyTypeLinks()) &&
                   (!thingform['thing-name'].$dirty && 
                    !thingform['thing-desc'].$dirty && 
                    !thingform['thing-notes'].$dirty)"
@@ -100,7 +125,14 @@
                   (!thingform['thing-name'].$dirty && 
                    !thingform['thing-desc'].$dirty && 
                    !thingform['thing-notes'].$dirty)"
-                ng-click="$ctrl.updateImageLinks()">Update Image Links</button>        
+                ng-click="$ctrl.updateImageLinks()">Update Image Links</button>  
+        <button name="thing-types-update"
+                type="submit"
+                data-ng-show="$ctrl.haveDirtyTypeLinks() &&
+                  (!thingform['thing-name'].$dirty && 
+                   !thingform['thing-desc'].$dirty && 
+                   !thingform['thing-notes'].$dirty)"
+                ng-click="$ctrl.updateTypeLinks()">Update Type Links</button>     
       </span>
 
       <button name="thing-delete"
